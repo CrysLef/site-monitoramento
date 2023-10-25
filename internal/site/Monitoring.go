@@ -12,7 +12,7 @@ type Monitoring struct {
 
 func (m *Monitoring) Start() {
 	fmt.Println("Monitorando...")
-	sites := []string{"https://random-status-code.herokuapp.com/", "https://www.alura.com.br", "https://www.caelum.com.br"}
+	sites := ReadWebsiteFile()
 
 	for i := 0; i < m.Monitoramentos; i++ {
 		for i, site := range sites {
@@ -26,11 +26,23 @@ func (m *Monitoring) Start() {
 }
 
 func (m *Monitoring) Config() (int, time.Duration) {
-	fmt.Print("Digite quantos monitoramentos deseja: ")
-	fmt.Scan(&m.Monitoramentos)
 
-	fmt.Print("Digite o intervalo de tempo entre monitoramentos: ")
-	fmt.Scan(&m.Delay)
+	for m.Monitoramentos == 0 || m.Delay == 0 {
+		fmt.Print("Digite quantos monitoramentos deseja: ")
+		fmt.Scan(&m.Monitoramentos)
+
+		if m.Monitoramentos == 0 {
+			fmt.Println("Ao menos 1 monitoramento deve ser feito")
+			continue
+		}
+
+		if m.Monitoramentos == 1 {
+			break
+		}
+
+		fmt.Print("Digite o intervalo de tempo entre monitoramentos: ")
+		fmt.Scan(&m.Delay)
+	}
 
 	return m.Monitoramentos, m.Delay
 }
