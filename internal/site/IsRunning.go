@@ -6,13 +6,22 @@ import (
 )
 
 func IsRunning(url string) {
-	resp, _ := http.Get(url)
+	resp, err := http.Get(url)
+	websiteLogs := WebsiteLogs{
+		Url:        url,
+		StatusCode: resp.StatusCode,
+	}
+
+	if err != nil {
+		fmt.Printf("erro ao monitorar o site: %v", err)
+	}
 
 	if resp.StatusCode == 200 {
 		fmt.Println("Site:", url, "carregado com sucesso")
-		fmt.Println("Status:", resp.StatusCode)
+		websiteLogs.Registry()
+
 	} else {
 		fmt.Println("Erro ao carregar site:", url)
-		fmt.Println("Status:", resp.StatusCode)
+		websiteLogs.Registry()
 	}
 }
