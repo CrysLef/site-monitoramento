@@ -24,13 +24,15 @@ func ReadWebsiteFile() []string {
 
 		linha = strings.TrimSpace(linha)
 
-		sites = append(sites, linha)
+		if linha != "" {
+			sites = append(sites, linha)
+		}
 
 		if err == io.EOF {
 			break
 		}
 	}
-	arquivo.Close()
+	defer arquivo.Close()
 
 	return sites
 }
