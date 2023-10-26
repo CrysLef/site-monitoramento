@@ -16,7 +16,10 @@ func (log *WebsiteLogs) Registry() {
 	if err != nil {
 		fmt.Printf("erro ao registrar log: %v", err)
 	}
-	arquivo.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + log.Url + " - " + "status code: " + fmt.Sprint(log.StatusCode) + "\n")
+
+	agora := time.Now()
+	logFormat := fmt.Sprintf(" - website: [%s] - status code: [%d]\n", log.Url, log.StatusCode)
+	arquivo.WriteString(agora.Format("02/01/2006 15:04:05") + logFormat)
 }
 
 func (*WebsiteLogs) Read() {
