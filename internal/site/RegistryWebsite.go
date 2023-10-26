@@ -17,29 +17,33 @@ func RegistryWebsites() error {
 
 	}
 
-	fmt.Printf("Escreva a URL do site que deseja registrar: ")
-	fmt.Scan(&url)
+	var nRegistryWebsites int
+	fmt.Scanf("Digite quantos websites deseja registrar: %d", &nRegistryWebsites)
 
-	url = FormatWebsiteURL(url)
-	url = url + "\n"
+	for i := 0; i < nRegistryWebsites; i++ {
+		fmt.Scanf("Escreva a URL do site que deseja registrar: %s", &url)
 
-	writer := bufio.NewWriter(arquivo)
-	_, err = writer.WriteString(url)
-	writer.Flush()
-	if err != nil {
-		fmt.Printf("erro ao abrir o arquivo: %v", err)
+		url = ValidateWebsiteURL(url)
+		url = url + "\n"
+
+		writer := bufio.NewWriter(arquivo)
+		_, err = writer.WriteString(url)
+		writer.Flush()
+		if err != nil {
+			return fmt.Errorf("erro ao abrir o arquivo: %v", err)
+		}
+
+		fmt.Println("Website registrado com sucesso")
 	}
 
-	fmt.Println("Website registrado com sucesso")
-
-	arquivo.Close()
+	defer arquivo.Close()
 
 	return nil
 }
 
-func FormatWebsiteURL(url string) string {
+func ValidateWebsiteURL(url string) string {
 	url = strings.TrimSpace(url)
-	regex := `(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/|www\.)?([a-zA-Z]{1,})(\.[a-zA-Z]{2,3})?(\.[a-zA-Z]{2,3})`
+	regex := `(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)([a-zA-Z]{1,})(\.[a-zA-Z]{2,3})(\.[a-zA-Z]{2,3})?(\/[a-zA-Z0-9]{2,})?`
 
 	matched, err := regexp.MatchString(regex, url)
 	if err != nil {
@@ -49,6 +53,7 @@ func FormatWebsiteURL(url string) string {
 
 	if !matched {
 		fmt.Println("URL invalida!")
+		fmt.Println("Tente uma url com o protocolo http ou https, como por exemplo: https://nomedosite.dominio ou https://www.nomedosite.dominio")
 		os.Exit(-1)
 	}
 
