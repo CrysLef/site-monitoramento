@@ -34,7 +34,8 @@ func (m *Monitoring) Start() {
 func (m *Monitoring) Config() (int, time.Duration) {
 
 	for m.Monitoramentos == 0 || m.Delay == 0 {
-		fmt.Scanf("Digite quantos monitoramentos deseja: %d", &m.Monitoramentos)
+		fmt.Print("Digite quantos monitoramentos deseja: ")
+		fmt.Scan(&m.Monitoramentos)
 
 		if m.Monitoramentos == 0 {
 			fmt.Println("Ao menos 1 monitoramento deve ser feito")
@@ -44,8 +45,8 @@ func (m *Monitoring) Config() (int, time.Duration) {
 		if m.Monitoramentos == 1 {
 			break
 		}
-
-		fmt.Scanf("Digite o intervalo de tempo entre monitoramentos: %d", &m.Delay)
+		fmt.Print("Digite o intervalo de tempo entre monitoramentos: ")
+		fmt.Scan(&m.Delay)
 	}
 
 	return m.Monitoramentos, m.Delay

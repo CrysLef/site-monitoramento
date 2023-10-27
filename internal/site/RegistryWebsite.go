@@ -18,10 +18,12 @@ func RegistryWebsites() error {
 	}
 
 	var nRegistryWebsites int
-	fmt.Scanf("Digite quantos websites deseja registrar: %d", &nRegistryWebsites)
+	fmt.Print("Digite quantos websites deseja registrar: ")
+	fmt.Scan(&nRegistryWebsites)
 
 	for i := 0; i < nRegistryWebsites; i++ {
-		fmt.Scanf("Escreva a URL do site que deseja registrar: %s", &url)
+		fmt.Print("Escreva a URL do site que deseja registrar: ")
+		fmt.Scan(&url)
 
 		url = ValidateWebsiteURL(url)
 		url = url + "\n"
